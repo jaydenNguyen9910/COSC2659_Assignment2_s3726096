@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct MenuView: View {
+    @Binding var username: String
+    
     var body: some View {
         NavigationView {
             VStack{
+                Text("Hi " + username + "!!!")
                 NavigationLink {
-                    GameView()
+                    GameView(username)
                 } label: {
                     Text("Play game")
                 }
@@ -30,11 +33,12 @@ struct MenuView: View {
                 }
             }
         }
+        .ignoresSafeArea(.all)
     }
 }
 
 struct MenuView_Previews: PreviewProvider {
     static var previews: some View {
-        MenuView()
+        MenuView(username: .constant("test"))
     }
 }

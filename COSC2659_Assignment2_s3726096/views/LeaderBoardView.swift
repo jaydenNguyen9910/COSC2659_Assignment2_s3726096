@@ -8,8 +8,37 @@
 import SwiftUI
 
 struct LeaderBoardView: View {
+    
+    private var userList: [User] = []
+    
+    init() {
+        let users: [String:Int] = UserDefaults.standard.object(forKey: "users") as? [String:Int] ?? [:]
+        for (index, user) in users.enumerated() {
+            var userRank = ""
+            if user.value <= 150 {
+                userRank = "third"
+            }
+            else if user.value <= 200 {
+                userRank = "second"
+            }
+            else {
+                userRank = "first"
+            }
+            userList.append(User(id: index, name: user.key, highscore: user.value, rankingImageName: userRank))
+        }
+        userList = userList.sorted(by: { $0.highscore > $1.highscore })
+    }
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ForEach(userList) { user in
+            HStack {
+                Text(user.name)
+                Text(String(user.highscore))
+                user.rankingImage
+                    .resizable()
+                    .frame(width: 50, height: 50)
+            }
+        }
     }
 }
 

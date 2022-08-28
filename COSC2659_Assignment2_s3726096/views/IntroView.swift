@@ -8,20 +8,34 @@
 import SwiftUI
 
 struct IntroView: View {
+    
+    @State var isSignInViewActive: Bool = true
+    
+    @State var isSignUpViewActive: Bool = true
+    
+    @State var username: String = ""
+    
     var body: some View {
-        NavigationView {
-            VStack{
-                NavigationLink {
-                    SignInView()
-                } label: {
-                    Text("Sign in")
+        ZStack {
+            if isSignInViewActive && isSignUpViewActive {
+                NavigationView {
+                    VStack{
+                        NavigationLink {
+                            SignInView(active: $isSignInViewActive, username: $username)
+                        } label: {
+                            Text("Sign in")
+                        }
+                        
+                        NavigationLink {
+                            SignUpView(active: $isSignUpViewActive, username: $username)
+                        } label: {
+                            Text("Don't have an account? Please sign up!")
+                        }
+                    }
                 }
-                
-                NavigationLink {
-                    SignUpView()
-                } label: {
-                    Text("Don't have an account? Please sign up!")
-                }
+            }
+            else {
+                MenuView(username: $username)
             }
         }
     }

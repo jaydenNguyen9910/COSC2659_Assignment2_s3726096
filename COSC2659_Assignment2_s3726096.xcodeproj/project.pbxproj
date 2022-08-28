@@ -32,7 +32,7 @@
 		F4D60FD828BB089E0080EC46 /* IntroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D60FD728BB089E0080EC46 /* IntroView.swift */; };
 		F4D60FDA28BB09020080EC46 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D60FD928BB09020080EC46 /* SignInView.swift */; };
 		F4D60FDC28BB09160080EC46 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D60FDB28BB09160080EC46 /* SignUpView.swift */; };
-		F4D60FDE28BB0DB20080EC46 /* UserDefaultsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D60FDD28BB0DB20080EC46 /* UserDefaultsHelper.swift */; };
+		F4D60FE628BB94F10080EC46 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D60FE528BB94F10080EC46 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,7 +62,7 @@
 		F4D60FD728BB089E0080EC46 /* IntroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroView.swift; sourceTree = "<group>"; };
 		F4D60FD928BB09020080EC46 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		F4D60FDB28BB09160080EC46 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
-		F4D60FDD28BB0DB20080EC46 /* UserDefaultsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsHelper.swift; sourceTree = "<group>"; };
+		F4D60FE528BB94F10080EC46 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +134,7 @@
 				F4D60FAF28B8FBCA0080EC46 /* PlayingCard.swift */,
 				F4D60FB128B8FCE90080EC46 /* PlayingCards.swift */,
 				F4D60FB328B90DD40080EC46 /* PlayingCardFlip.swift */,
+				F4D60FE528BB94F10080EC46 /* User.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -160,7 +161,6 @@
 			children = (
 				F4D60FC728B9E9290080EC46 /* PlaySound.swift */,
 				F4D60FCD28B9EF7C0080EC46 /* Modifires.swift */,
-				F4D60FDD28BB0DB20080EC46 /* UserDefaultsHelper.swift */,
 			);
 			path = helpers;
 			sourceTree = "<group>";
@@ -251,10 +251,10 @@
 				F4D60FB028B8FBCA0080EC46 /* PlayingCard.swift in Sources */,
 				F4D60FD428B9FE600080EC46 /* GameView.swift in Sources */,
 				F4D60FD228B9FE3C0080EC46 /* LeaderBoardView.swift in Sources */,
+				F4D60FE628BB94F10080EC46 /* User.swift in Sources */,
 				F4D60FDA28BB09020080EC46 /* SignInView.swift in Sources */,
 				F4D60FA028B8E7E30080EC46 /* COSC2659_Assignment2_s3726096App.swift in Sources */,
 				F4D60FDC28BB09160080EC46 /* SignUpView.swift in Sources */,
-				F4D60FDE28BB0DB20080EC46 /* UserDefaultsHelper.swift in Sources */,
 				F4D60FCE28B9EF7C0080EC46 /* Modifires.swift in Sources */,
 				F4D60FB428B90DD40080EC46 /* PlayingCardFlip.swift in Sources */,
 				F4D60FD828BB089E0080EC46 /* IntroView.swift in Sources */,

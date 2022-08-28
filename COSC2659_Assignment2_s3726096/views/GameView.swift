@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct GameView: View {
-    @State private var highscore = UserDefaults.standard.integer(forKey: "highscore")
+    
+    @State var username: String
+    @State private var highscore: Int
+    @State private var users: [String:Int] = [:]
+    
     @State private var coins = 100
     @State private var betAmount = 10
     
@@ -19,6 +23,21 @@ struct GameView: View {
     @State private var isDealed = false
     @State private var isShown = false
     @State private var showGameOverModal = false
+    @State private var isBetting10 = true
+    @State private var isBetting20 = false
+    @State private var showSettingModal = false
+    @State private var isNormalModeChosen = true
+    @State private var isRiskyModeChosen = false
+    @State private var isWinDisplayed = false
+    @State private var isDrawDisplayed = false
+    @State private var isLoseDisplayed = false
+    
+    init(_ username: String) {
+        self.username = username
+        let users = UserDefaults.standard.object(forKey: "users") as? [String:Int] ?? [:]
+        self.users = users
+        self.highscore = users[username] ?? 100
+    }
     
     // MARK: - SHUFFLE CARDS
     func shuffleCards(){
@@ -75,7 +94,7 @@ struct GameView: View {
         }
         
         if playerSum > bookieSum {
-            playerWinsNormalMode()
+            playerWins()
             
             // NEW HIGHSCORE LOGIC
             if coins > highscore{
@@ -86,29 +105,55 @@ struct GameView: View {
         }
         else if playerSum == bookieSum {
             playSound(sound: "losingOrDraw", type: "mp3")
+            isDrawDisplayed = true
+            let seconds = 1.0
+            DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+                isDrawDisplayed = false
+            }
         }
         else {
             // PLAYER LOSES
-            playLosesNormalMode()
+            playerLoses()
         }
     }
     
-    // MARK: - PLAYER WIN LOGIC IN NORMAL MODE
-    func playerWinsNormalMode() {
-        coins += betAmount
+    // MARK: - PLAYER WIN LOGIC
+    func playerWins() {
+        if isNormalModeChosen {
+            coins += betAmount
+        }
+        else {
+            coins += betAmount*2
+        }
+        isWinDisplayed = true
+        let seconds = 1.0
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            isWinDisplayed = false
+        }
     }
     
     // MARK: - HIGHSCORE LOGIC
     func newHighScore(){
         highscore = coins
-        UserDefaults.standard.set(highscore, forKey: "highscore")
+        users[username] = highscore
+        UserDefaults.standard.set(users, forKey: "users")
         playSound(sound: "highscore", type: "mp3")
     }
     
     // MARK: - PLAYER LOSE LOGIC
-    func playLosesNormalMode() {
-        coins -= betAmount*10
+    func playerLoses() {
+        if isNormalModeChosen {
+            coins -= betAmount
+        }
+        else {
+            coins -= betAmount*2
+        }
         playSound(sound: "losingOrDraw", type: "mp3")
+        isLoseDisplayed = true
+        let seconds = 1.0
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            isLoseDisplayed = false
+        }
         isGameOver()
     }
     
@@ -122,12 +167,32 @@ struct GameView: View {
     }
     
     // MARK: - BET 20 LOGIC
+    func bet20() {
+        betAmount = 20
+        isBetting10 = false
+        isBetting20 = true
+    }
     
     // MARK: - BET 10 LOGIC
+    func bet10() {
+        betAmount = 10
+        isBetting10 = true
+        isBetting20 = false
+    }
     
     var body: some View {
         ZStack {
             VStack {
+                HStack {
+                    Spacer()
+                    
+                    Button {
+                        showSettingModal = true
+                    } label: {
+                        Text("Settings")
+                    }
+                }
+                
                 // MARK: - STATISTICS
                 HStack{
                     HStack{
@@ -203,7 +268,7 @@ struct GameView: View {
                             }
                         }
                     }
-                    Text("You")
+                    Text(username)
                     Button {
                         showCards()
                     } label: {
@@ -211,6 +276,28 @@ struct GameView: View {
                     }
                     .disabled(!isDealed || isShown)
                 }// end Vstack - Player field
+                
+                HStack {
+                    // MARK: - BET 20 BUTTON
+                    Button {
+                        self.bet20()
+                    } label: {
+                        HStack(){
+                            Text("20")
+                        }
+                    }
+                    
+                    Spacer()
+                    
+                    // MARK: - BET 10 BUTTON
+                    Button {
+                        self.bet10()
+                    } label: {
+                        HStack(){
+                            Text("10")
+                        }
+                    }
+                }// end HStack - betting
             }
             
             // MARK: - GAMEOVER MODAL
@@ -237,6 +324,7 @@ struct GameView: View {
                             Button {
                                 self.showGameOverModal = false
                                 self.coins = 100
+                                reset()
                                 audioPlayer?.stop()
                             } label: {
                                 Text("New Game".uppercased())
@@ -261,12 +349,105 @@ struct GameView: View {
                         playSound(sound: "drum-music", type: "mp3")
                 })
             }// end ZStack - Gameover modal
+            
+            // MARK: - SETTING MODAL
+            if showSettingModal {
+                ZStack{
+                    Color("ColorBlackTransparent")
+                        .edgesIgnoringSafeArea(.all)
+                    VStack{
+                        Text("SETTINGS")
+                            .font(.system(.title, design: .rounded))
+                            .fontWeight(.heavy)
+                            .foregroundColor(Color.white)
+                            .padding()
+                            .frame(minWidth: 280, idealWidth: 280, maxWidth: 320)
+                            .background(Color.red)
+                        
+                        Spacer()
+                        
+                        VStack {
+                            Text("Game modes:")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .foregroundColor(Color.white)
+                                .padding()
+                            
+                            Button {
+                                isNormalModeChosen = true
+                                isRiskyModeChosen = false
+                            } label: {
+                                if isNormalModeChosen {
+                                    Text("Normal")
+                                        .fontWeight(.heavy)
+                                        .foregroundColor(Color.white)
+                                }
+                                else {
+                                    Text("Normal")
+                                        .foregroundColor(Color.white)
+                                }
+                            }
+                            
+                            Button {
+                                isNormalModeChosen = false
+                                isRiskyModeChosen = true
+                            } label: {
+                                if isRiskyModeChosen {
+                                    Text("Risky")
+                                        .fontWeight(.heavy)
+                                        .foregroundColor(Color.white)
+                                }
+                                else {
+                                    Text("Risky")
+                                        .foregroundColor(Color.white)
+                                }
+                            }
+
+                            Button {
+                                self.showSettingModal = false
+                                audioPlayer?.stop()
+                            } label: {
+                                Text("Save".uppercased())
+                                    .foregroundColor(Color.white)
+                            }
+                            .padding(.vertical,10)
+                            .padding(.horizontal, 20)
+                            .background(
+                                Capsule()
+                                    .strokeBorder(lineWidth: 2)
+                                    .foregroundColor(Color("ColorRedRMIT"))
+                            )
+                        }
+                        Spacer()
+                    }
+                    .frame(minWidth: 280, idealWidth: 280, maxWidth: 320, minHeight: 280, idealHeight: 300, maxHeight: 350, alignment: .center)
+                    .background(Color.blue)
+                    .cornerRadius(20)
+                }
+                .onAppear(perform: {
+                        playSound(sound: "drum-music", type: "mp3")
+                })
+            }// end ZStack - Gameover modal
+            
+            if isWinDisplayed {
+                Text("Win")
+            }
+            
+            if isDrawDisplayed {
+                Text("Draw")
+            }
+            
+            if isLoseDisplayed {
+                Text("Lose")
+            }
         }
+        .navigationTitle("Game")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 struct GameView_Previews: PreviewProvider {
     static var previews: some View {
-        GameView()
+        GameView("test")
     }
 }
