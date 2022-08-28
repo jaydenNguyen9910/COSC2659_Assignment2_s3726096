@@ -16,6 +16,9 @@ struct IntroView: View {
                     .edgesIgnoringSafeArea(.all)
                 
                 VStack{
+                    //Logo
+                    LogoView(logoFileName: "poker")
+                    
                     NavigationLink {
                         SignInView()
                     } label: {
