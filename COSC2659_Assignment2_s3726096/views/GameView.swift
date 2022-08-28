@@ -135,15 +135,25 @@ struct GameView: View {
                 HStack{
                     HStack{
                         Text("Your\nMoney".uppercased())
+                            .fontWeight(.heavy)
                             .multilineTextAlignment(.trailing)
+                            .foregroundColor(Color.white)
                         Text("\(coins)")
+                            .fontWeight(.heavy)
+                            .foregroundColor(Color.white)
                     }
+                    .modifier(scoreCapsuleStyle())
                     Spacer()
                     HStack{
                         Text("\(highscore)")
+                            .fontWeight(.heavy)
                             .multilineTextAlignment(.leading)
+                            .foregroundColor(Color.white)
                         Text("High\nScore".uppercased())
+                            .fontWeight(.heavy)
+                            .foregroundColor(Color.white)
                     }
+                    .modifier(scoreCapsuleStyle())
                 }// end HStack - Statistics
                 
                 // MARK: - BOOKIE FIELD
@@ -170,16 +180,31 @@ struct GameView: View {
                 Button {
                     dealCards()
                 } label: {
-                    Text("Deal")
+                    HStack(spacing: 30){
+                        Text("Deal")
+                            .fontWeight(.heavy)
+                            .foregroundColor(Color.white)
+                            .modifier(ButtonModifier())
+                    }
                 }
+                .padding(.vertical, 10)
+                .padding(.horizontal, 20)
                 .disabled(isDealed)
                 
                 // MARK: BUTTON RESET
                 Button {
                     reset()
                 } label: {
-                    Text("Reset")
+                    HStack(spacing: 30){
+                        Text("Reset")
+                            .fontWeight(.heavy)
+                            .foregroundColor(Color.white)
+                            .modifier(ButtonModifier())
+                    }
+                    
                 }
+                .padding(.vertical, 10)
+                .padding(.horizontal, 20)
                 .disabled(!isShown)
                 
                 Spacer()
@@ -210,8 +235,15 @@ struct GameView: View {
                     Button {
                         showCards()
                     } label: {
-                        Text("Showdown")
+                        HStack(spacing: 30){
+                            Text("Show")
+                                .fontWeight(.heavy)
+                                .foregroundColor(Color.white)
+                                .modifier(ButtonModifier())
+                        }
                     }
+                    .padding(.vertical, 10)
+                    .padding(.horizontal, 20)
                     .disabled(!isDealed || isShown)
                 }// end Vstack - Player field
             }
