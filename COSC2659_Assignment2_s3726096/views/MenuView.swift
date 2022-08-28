@@ -19,19 +19,47 @@ struct MenuView: View {
                         GameView()
                     } label: {
                         Text("Play game")
+                            .fontWeight(.heavy)
+                            .foregroundColor(Color.white)
                     }
+                    .padding(.vertical,10)
+                    .padding(.horizontal, 20)
+                    .background(
+                        Capsule()
+                            .strokeBorder(lineWidth: 2)
+                            .foregroundColor(Color.white)
+                    )
                     
                     NavigationLink {
                         HowToPlayView()
                     } label: {
                         Text("How to play")
+                            .fontWeight(.heavy)
+                            .foregroundColor(Color.white)
                     }
+                    
+                    .padding(.vertical,10)
+                    .padding(.horizontal, 20)
+                    .background(
+                        Capsule()
+                            .strokeBorder(lineWidth: 2)
+                            .foregroundColor(Color.white)
+                    )
                     
                     NavigationLink {
                         LeaderBoardView()
                     } label: {
                         Text("Leader Board")
+                            .fontWeight(.heavy)
+                            .foregroundColor(Color.white)
                     }
+                    .padding(.vertical,10)
+                    .padding(.horizontal, 20)
+                    .background(
+                        Capsule()
+                            .strokeBorder(lineWidth: 2)
+                            .foregroundColor(Color.white)
+                    )
                 }
             }
             

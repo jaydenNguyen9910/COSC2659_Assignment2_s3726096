@@ -127,6 +127,9 @@ struct GameView: View {
     
     var body: some View {
         ZStack {
+            // MARK: - BACKGROUND
+            LinearGradient(gradient: Gradient(colors: [ColorConstants.lightYellow, ColorConstants.lightGreen]), startPoint: .top, endPoint: .bottom)
+                .edgesIgnoringSafeArea(.all)
             VStack {
                 // MARK: - STATISTICS
                 HStack{
