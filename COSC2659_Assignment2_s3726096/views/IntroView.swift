@@ -8,21 +8,49 @@
 import SwiftUI
 
 struct IntroView: View {
+    let lightGreen = Color(red: 0.325, green: 0.651, blue: 0.369)
+    let lightYellow = Color(red: 0.988, green: 0.98, blue: 0.678)
+    
     var body: some View {
         NavigationView {
-            VStack{
-                NavigationLink {
-                    SignInView()
-                } label: {
-                    Text("Sign in")
-                }
+            ZStack {
+                // MARK: - BACKGROUND
+                LinearGradient(gradient: Gradient(colors: [lightGreen, lightYellow]), startPoint: .top, endPoint: .bottom)
+                    .edgesIgnoringSafeArea(.all)
                 
-                NavigationLink {
-                    SignUpView()
-                } label: {
-                    Text("Don't have an account? Please sign up!")
+                VStack{
+                    NavigationLink {
+                        SignInView()
+                    } label: {
+                        Text("Sign in")
+                            .fontWeight(.heavy)
+                            .foregroundColor(Color.white)
+                    }
+                    .padding(.vertical,10)
+                    .padding(.horizontal, 20)
+                    .background(
+                        Capsule()
+                            .strokeBorder(lineWidth: 2)
+                            .foregroundColor(Color.white)
+                    )
+                    
+                    NavigationLink {
+                        SignUpView()
+                    } label: {
+                        Text("Don't have an account? Please sign up!")
+                            .fontWeight(.heavy)
+                            .foregroundColor(Color.white)
+                    }
+                    .padding(.vertical,10)
+                    .padding(.horizontal, 20)
+                    .background(
+                        Capsule()
+                            .strokeBorder(lineWidth: 2)
+                            .foregroundColor(Color.white)
+                    )
                 }
             }
+            
         }
     }
 }
