@@ -10,25 +10,31 @@ import SwiftUI
 struct MenuView: View {
     var body: some View {
         NavigationView {
-            VStack{
-                NavigationLink {
-                    GameView()
-                } label: {
-                    Text("Play game")
-                }
-                
-                NavigationLink {
-                    HowToPlayView()
-                } label: {
-                    Text("How to play")
-                }
-                
-                NavigationLink {
-                    LeaderBoardView()
-                } label: {
-                    Text("Leader Board")
+            ZStack {
+                // MARK: - BACKGROUND
+                LinearGradient(gradient: Gradient(colors: [ColorConstants.lightGreen, ColorConstants.lightYellow]), startPoint: .top, endPoint: .bottom)
+                    .edgesIgnoringSafeArea(.all)
+                VStack{
+                    NavigationLink {
+                        GameView()
+                    } label: {
+                        Text("Play game")
+                    }
+                    
+                    NavigationLink {
+                        HowToPlayView()
+                    } label: {
+                        Text("How to play")
+                    }
+                    
+                    NavigationLink {
+                        LeaderBoardView()
+                    } label: {
+                        Text("Leader Board")
+                    }
                 }
             }
+            
         }
     }
 }

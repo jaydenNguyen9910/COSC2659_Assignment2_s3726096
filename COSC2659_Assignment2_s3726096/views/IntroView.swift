@@ -8,14 +8,11 @@
 import SwiftUI
 
 struct IntroView: View {
-    let lightGreen = Color(red: 0.325, green: 0.651, blue: 0.369)
-    let lightYellow = Color(red: 0.988, green: 0.98, blue: 0.678)
-    
     var body: some View {
         NavigationView {
             ZStack {
                 // MARK: - BACKGROUND
-                LinearGradient(gradient: Gradient(colors: [lightGreen, lightYellow]), startPoint: .top, endPoint: .bottom)
+                LinearGradient(gradient: Gradient(colors: [ColorConstants.lightGreen, ColorConstants.lightYellow]), startPoint: .top, endPoint: .bottom)
                     .edgesIgnoringSafeArea(.all)
                 
                 VStack{

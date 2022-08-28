@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F448161428BB2C8B005D5170 /* ColorConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F448161328BB2C8B005D5170 /* ColorConstants.swift */; };
 		F4D60FA028B8E7E30080EC46 /* COSC2659_Assignment2_s3726096App.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D60F9F28B8E7E30080EC46 /* COSC2659_Assignment2_s3726096App.swift */; };
 		F4D60FA428B8E7E50080EC46 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4D60FA328B8E7E50080EC46 /* Assets.xcassets */; };
 		F4D60FA728B8E7E50080EC46 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4D60FA628B8E7E50080EC46 /* Preview Assets.xcassets */; };
@@ -36,6 +37,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F448161328BB2C8B005D5170 /* ColorConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorConstants.swift; sourceTree = "<group>"; };
 		F4D60F9C28B8E7E30080EC46 /* COSC2659_Assignment2_s3726096.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = COSC2659_Assignment2_s3726096.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4D60F9F28B8E7E30080EC46 /* COSC2659_Assignment2_s3726096App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = COSC2659_Assignment2_s3726096App.swift; sourceTree = "<group>"; };
 		F4D60FA328B8E7E50080EC46 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 				F4D60FAF28B8FBCA0080EC46 /* PlayingCard.swift */,
 				F4D60FB128B8FCE90080EC46 /* PlayingCards.swift */,
 				F4D60FB328B90DD40080EC46 /* PlayingCardFlip.swift */,
+				F448161328BB2C8B005D5170 /* ColorConstants.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -248,6 +251,7 @@
 				F4D60FD028B9FE210080EC46 /* MenuView.swift in Sources */,
 				F4D60FC828B9E9290080EC46 /* PlaySound.swift in Sources */,
 				F4D60FD628B9FE6F0080EC46 /* HowToPlayView.swift in Sources */,
+				F448161428BB2C8B005D5170 /* ColorConstants.swift in Sources */,
 				F4D60FB028B8FBCA0080EC46 /* PlayingCard.swift in Sources */,
 				F4D60FD428B9FE600080EC46 /* GameView.swift in Sources */,
 				F4D60FD228B9FE3C0080EC46 /* LeaderBoardView.swift in Sources */,

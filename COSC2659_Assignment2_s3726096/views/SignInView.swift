@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct SignInView: View {
-    let lightGreen = Color(red: 0.325, green: 0.651, blue: 0.369)
-    let lightYellow = Color(red: 0.988, green: 0.98, blue: 0.678)
     @AppStorage("users") var users = 0
     
     @State private var username: String = ""
@@ -21,7 +19,7 @@ struct SignInView: View {
     var body: some View {
         ZStack {
             // MARK: - BACKGROUND
-            LinearGradient(gradient: Gradient(colors: [lightGreen, lightYellow]), startPoint: .top, endPoint: .bottom)
+            LinearGradient(gradient: Gradient(colors: [ColorConstants.lightGreen, ColorConstants.lightYellow]), startPoint: .top, endPoint: .bottom)
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
