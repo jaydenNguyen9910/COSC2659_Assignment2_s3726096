@@ -19,17 +19,37 @@ struct IntroView: View {
         ZStack {
             if isSignInViewActive && isSignUpViewActive {
                 NavigationView {
-                    VStack{
-                        NavigationLink {
-                            SignInView(active: $isSignInViewActive, username: $username)
-                        } label: {
-                            Text("Sign in")
-                        }
+                    ZStack {
+                        // MARK: - BACKGROUND
+                        LinearGradient(gradient: Gradient(colors: [Color("intro-background-start"), Color("intro-background-end")]), startPoint: .leading, endPoint: .trailing)
+                            .edgesIgnoringSafeArea(.all)
                         
-                        NavigationLink {
-                            SignUpView(active: $isSignUpViewActive, username: $username)
-                        } label: {
-                            Text("Don't have an account? Please sign up!")
+                        VStack{
+                            //App name
+                            Image("three-cards-poker-logo")
+                                .resizable()
+                                .frame(width: 200, height: 100)
+                            
+                            //Logo
+                            LogoView(logoFileName: "poker")
+                            
+                            NavigationLink {
+                                SignInView(active: $isSignInViewActive, username: $username)
+                            } label: {
+                                Text("Sign in")
+                                    .fontWeight(.heavy)
+                                    .modifier(textModifier())
+                            }
+                            .modifier(buttonModifier())
+                            
+                            NavigationLink {
+                                SignUpView(active: $isSignUpViewActive, username: $username)
+                            } label: {
+                                Text("Don't have an account? Please sign up!")
+                                    .fontWeight(.heavy)
+                                    .modifier(textModifier())
+                            }
+                            .modifier(buttonModifier())
                         }
                     }
                 }
@@ -44,5 +64,7 @@ struct IntroView: View {
 struct IntroView_Previews: PreviewProvider {
     static var previews: some View {
         IntroView()
+        
+        IntroView().environment(\.colorScheme, .dark)
     }
 }

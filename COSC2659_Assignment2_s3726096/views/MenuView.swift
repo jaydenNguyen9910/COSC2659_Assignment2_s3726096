@@ -9,29 +9,53 @@ import SwiftUI
 
 struct MenuView: View {
     @Binding var username: String
-    
+        
     var body: some View {
         NavigationView {
-            VStack{
-                Text("Hi " + username + "!!!")
-                NavigationLink {
-                    GameView(username)
-                } label: {
-                    Text("Play game")
-                }
+            ZStack{
+                // MARK: - BACKGROUND
+                LinearGradient(gradient: Gradient(colors: [Color("intro-background-start"), Color("intro-background-end")]), startPoint: .leading, endPoint: .trailing)
+                    .edgesIgnoringSafeArea(.all)
                 
-                NavigationLink {
-                    HowToPlayView()
-                } label: {
-                    Text("How to play")
-                }
-                
-                NavigationLink {
-                    LeaderBoardView()
-                } label: {
-                    Text("Leader Board")
+                VStack{
+                    //Logo
+                    LogoView(logoFileName: "poker")
+                    
+                    Text("Hi " + username + "!!!")
+                        .font(.headline)
+                        .fontWeight(.heavy)
+                    
+                    NavigationLink {
+                        GameView(username)
+                    } label: {
+                        Text("Play game")
+                            .fontWeight(.heavy)
+                            .modifier(textModifier())
+                    }
+                    .modifier(buttonModifier())
+                    
+                    NavigationLink {
+                        HowToPlayView()
+                    } label: {
+                        Text("How to play")
+                            .fontWeight(.heavy)
+                            .modifier(textModifier())
+                    }
+                    .modifier(buttonModifier())
+                    
+                    NavigationLink {
+                        LeaderBoardView()
+                    } label: {
+                        Text("Leader Board")
+                            .fontWeight(.heavy)
+                            .modifier(textModifier())
+                    }
+                    .modifier(buttonModifier())
                 }
             }
+            .onAppear(perform: {
+                    playSound(sound: "Loyalty_Freak_Music_-_04_-_Cant_Stop_My_Feet_", type: "mp3")
+            })
         }
         .ignoresSafeArea(.all)
     }
@@ -40,5 +64,7 @@ struct MenuView: View {
 struct MenuView_Previews: PreviewProvider {
     static var previews: some View {
         MenuView(username: .constant("test"))
+        
+        MenuView(username: .constant("test")).environment(\.colorScheme, .dark)
     }
 }

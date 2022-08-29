@@ -29,7 +29,7 @@ struct GameView: View {
     @State private var isNormalModeChosen = true
     @State private var isRiskyModeChosen = false
     @State private var isWinDisplayed = false
-    @State private var isDrawDisplayed = false
+    @State private var isTieDisplayed = false
     @State private var isLoseDisplayed = false
     
     init(_ username: String) {
@@ -100,15 +100,15 @@ struct GameView: View {
             if coins > highscore{
                 newHighScore()
             } else {
-                playSound(sound: "winning", type: "mp3")
+                playSound(sound: "win", type: "mp3")
             }
         }
         else if playerSum == bookieSum {
-            playSound(sound: "losingOrDraw", type: "mp3")
-            isDrawDisplayed = true
+            playSound(sound: "tie", type: "mp3")
+            isTieDisplayed = true
             let seconds = 1.0
             DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
-                isDrawDisplayed = false
+                isTieDisplayed = false
             }
         }
         else {
@@ -148,7 +148,7 @@ struct GameView: View {
         else {
             coins -= betAmount*2
         }
-        playSound(sound: "losingOrDraw", type: "mp3")
+        playSound(sound: "lose", type: "mp3")
         isLoseDisplayed = true
         let seconds = 1.0
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
@@ -182,126 +182,220 @@ struct GameView: View {
     
     var body: some View {
         ZStack {
-            VStack {
-                HStack {
-                    Spacer()
-                    
-                    Button {
-                        showSettingModal = true
-                    } label: {
-                        Text("Settings")
-                    }
-                }
-                
-                // MARK: - STATISTICS
-                HStack{
-                    HStack{
-                        Text("Your\nMoney".uppercased())
-                            .multilineTextAlignment(.trailing)
-                        Text("\(coins)")
-                    }
-                    Spacer()
-                    HStack{
-                        Text("\(highscore)")
-                            .multilineTextAlignment(.leading)
-                        Text("High\nScore".uppercased())
-                    }
-                }// end HStack - Statistics
-                
-                // MARK: - BOOKIE FIELD
-                VStack{
-                    Text("Bookie")
-                    if isDealed {
-                        HStack {
-                            playingCards[bookieCards[0]].image
+            // MARK: - BACKGROUND
+            LinearGradient(gradient: Gradient(colors: [Color("intro-background-start"), Color("intro-background-end")]), startPoint: .leading, endPoint: .trailing)
+                .edgesIgnoringSafeArea(.all)
+            
+            // MARK: - GAME FIELD
+                VStack {
+                    HStack {
+                        Spacer()
+                        
+                        Button {
+                            showSettingModal = true
+                        } label: {
+                            Image(systemName: "gearshape.fill")
                                 .resizable()
-                                .modifier(cardModifier())
-                            playingCards[bookieCards[1]].image
-                                .resizable()
-                                .modifier(cardModifier())
-                            playingCards[bookieCards[2]].image
-                                .resizable()
-                                .modifier(cardModifier())
+                                .frame(width: 20, height: 20)
+                                .modifier(textModifier())
+                                .padding(.trailing)
                         }
                     }
-                }// end VStack - Bookie field
-                
-                Spacer()
-                
-                // MARK: - BUTTON DEAL CARDS
-                Button {
-                    dealCards()
-                } label: {
-                    Text("Deal")
-                }
-                .disabled(isDealed)
-                
-                // MARK: BUTTON RESET
-                Button {
-                    reset()
-                } label: {
-                    Text("Reset")
-                }
-                .disabled(!isShown)
-                
-                Spacer()
-                
-                // MARK: - PLAYER FIELD
-                VStack{
-                    if isDealed {
-                        HStack {
-                            if isShown {
-                                playingCards[playerCards[0]].image
+                    
+                    // MARK: - STATISTICS
+                    HStack{
+                        HStack{
+                            Text("Money".uppercased())
+                                .fontWeight(.heavy)
+                                .multilineTextAlignment(.trailing)
+                                .foregroundColor(Color.white)
+                            Text("\(coins)")
+                                .fontWeight(.heavy)
+                                .foregroundColor(Color.white)
+                        }
+                        .modifier(scoreCapsuleStyle())
+                        Spacer()
+                        HStack{
+                            Text("\(highscore)")
+                                .fontWeight(.heavy)
+                                .multilineTextAlignment(.leading)
+                                .foregroundColor(Color.white)
+                            Text("Score".uppercased())
+                                .fontWeight(.heavy)
+                                .foregroundColor(Color.white)
+                        }
+                        .modifier(scoreCapsuleStyle())
+                    }// end HStack - Statistics
+                    
+                    // MARK: - BOOKIE FIELD
+                    VStack{
+                        VStack {
+                            Text("Bookie")
+                                .font(.headline)
+                                .fontWeight(.heavy)
+                                .modifier(textModifier())
+                            Image(systemName: "mustache.fill")
+                                .modifier(textModifier())
+                        }
+                        .modifier(humanIconModifier())
+                    
+                        if isDealed {
+                            HStack {
+                                playingCards[bookieCards[0]].image
                                     .resizable()
                                     .modifier(cardModifier())
-                                playingCards[playerCards[1]].image
+                                playingCards[bookieCards[1]].image
                                     .resizable()
                                     .modifier(cardModifier())
-                                playingCards[playerCards[2]].image
+                                playingCards[bookieCards[2]].image
                                     .resizable()
                                     .modifier(cardModifier())
                             }
-                            else {
-                                PlayingCardFlip(backSide: playingCards[0].image, frontSide: playingCards[playerCards[0]].image)
-                                PlayingCardFlip(backSide: playingCards[0].image, frontSide: playingCards[playerCards[1]].image)
-                                PlayingCardFlip(backSide: playingCards[0].image, frontSide: playingCards[playerCards[2]].image)
-                            }
+                            .frame(height: 150)
                         }
-                    }
-                    Text(username)
-                    Button {
-                        showCards()
-                    } label: {
-                        Text("Showdown")
-                    }
-                    .disabled(!isDealed || isShown)
-                }// end Vstack - Player field
-                
-                HStack {
-                    // MARK: - BET 20 BUTTON
-                    Button {
-                        self.bet20()
-                    } label: {
-                        HStack(){
-                            Text("20")
-                        }
-                    }
+                    }// end VStack - Bookie field
                     
                     Spacer()
                     
-                    // MARK: - BET 10 BUTTON
+                    // MARK: - BUTTON DEAL CARDS
                     Button {
-                        self.bet10()
+                        dealCards()
                     } label: {
-                        HStack(){
-                            Text("10")
+                        HStack(spacing: 30){
+                            Text("Deal")
+                                .fontWeight(.heavy)
+                                .foregroundColor(Color.white)
+                                .modifier(buttonModifier())
                         }
                     }
-                }// end HStack - betting
-            }
+                    .padding(.vertical, 5)
+                    .padding(.horizontal, 20)
+                    .disabled(isDealed)
+                    
+                    // MARK: BUTTON RESET
+                    Button {
+                        reset()
+                    } label: {
+                        HStack(spacing: 30){
+                            Text("Reset")
+                                .fontWeight(.heavy)
+                                .foregroundColor(Color.white)
+                                .modifier(buttonModifier())
+                        }
+                        
+                    }
+                    .padding(.vertical, 5)
+                    .padding(.horizontal, 20)
+                    .disabled(!isShown)
+                    
+                    Spacer()
+                    
+                    // MARK: - PLAYER FIELD
+                    VStack{
+                        if isDealed {
+                            HStack {
+                                if isShown {
+                                    playingCards[playerCards[0]].image
+                                        .resizable()
+                                        .modifier(cardModifier())
+                                    playingCards[playerCards[1]].image
+                                        .resizable()
+                                        .modifier(cardModifier())
+                                    playingCards[playerCards[2]].image
+                                        .resizable()
+                                        .modifier(cardModifier())
+                                }
+                                else {
+                                    PlayingCardFlip(backSide: playingCards[0].image, frontSide: playingCards[playerCards[0]].image)
+                                    PlayingCardFlip(backSide: playingCards[0].image, frontSide: playingCards[playerCards[1]].image)
+                                    PlayingCardFlip(backSide: playingCards[0].image, frontSide: playingCards[playerCards[2]].image)
+                                }
+                            }
+                            .frame(height: 150)
+                        }
+                        
+                        VStack {
+                            Image(systemName: "person.fill")
+                                .modifier(textModifier())
+                            Text(username)
+                                .font(.headline)
+                                .fontWeight(.heavy)
+                                .modifier(textModifier())
+                        }
+                        .modifier(humanIconModifier())
+                        
+                        Button {
+                            showCards()
+                        } label: {
+                            HStack(spacing: 30){
+                                Text("Show")
+                                    .fontWeight(.heavy)
+                                    .foregroundColor(Color.white)
+                                    .modifier(buttonModifier())
+                            }
+                        }
+                        .padding(.vertical, 5)
+                        .padding(.horizontal, 20)
+                        .disabled(!isDealed || isShown)
+                    }
+                    .onAppear(perform: {
+                            playSound(sound: "welcome", type: "mp3")
+                    })// end Vstack - Player field
+                    
+                    HStack {
+                        // MARK: - BET 20 BUTTON
+                        Button {
+                            self.bet20()
+                        } label: {
+                            HStack(){
+                                Text("20")
+                                    .modifier(textModifier())
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 20, weight: .heavy, design: .rounded))
+                                    .padding(.vertical, 5)
+                                    .padding(.horizontal, 5)
+                                    .overlay(
+                                        Circle().stroke(Color("button-background"), lineWidth: 1)
+                                    ).background(Circle().fill(Color("button-background")))
+
+                               Image("casino-chips")
+                                    .resizable()
+                                    .offset(x: isBetting20 ? 0 : 20)
+                                    .opacity(isBetting20 ? 1 : 0 )
+                                    .modifier(casinoChipModifier())
+                                    .animation(.default, value: isBetting20)
+                            }
+                        }
+                        
+                        Spacer()
+                        
+                        // MARK: - BET 10 BUTTON
+                        Button {
+                            self.bet10()
+                        } label: {
+                            HStack(){
+                                Image("casino-chips")
+                                     .resizable()
+                                     .offset(x: isBetting10 ? 0 : -20)
+                                     .opacity(isBetting10 ? 1 : 0 )
+                                     .modifier(casinoChipModifier())
+                                     .animation(.default, value: isBetting20)
+                                Text("10")
+                                    .modifier(textModifier())
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 20, weight: .heavy, design: .rounded))
+                                    .padding(.vertical, 5)
+                                    .padding(.horizontal, 5)
+                                    .overlay(
+                                        Circle().stroke(Color("button-background"), lineWidth: 1)
+                                    ).background(Circle().fill(Color("button-background")))
+                            }
+                        }
+                    }// end HStack - betting
+                }// end VStack - game field
             
             // MARK: - GAMEOVER MODAL
-            if showGameOverModal{
+            if showGameOverModal {
                 ZStack{
                     Color("ColorBlackTransparent")
                         .edgesIgnoringSafeArea(.all)
@@ -330,7 +424,7 @@ struct GameView: View {
                                 Text("New Game".uppercased())
                                     .foregroundColor(Color.white)
                             }
-                            .padding(.vertical,10)
+                            .padding(.vertical,5)
                             .padding(.horizontal, 20)
                             .background(
                                 Capsule()
@@ -410,7 +504,7 @@ struct GameView: View {
                                 Text("Save".uppercased())
                                     .foregroundColor(Color.white)
                             }
-                            .padding(.vertical,10)
+                            .padding(.vertical,5)
                             .padding(.horizontal, 20)
                             .background(
                                 Capsule()
@@ -430,15 +524,15 @@ struct GameView: View {
             }// end ZStack - Gameover modal
             
             if isWinDisplayed {
-                Text("Win")
+                Image("win")
             }
             
-            if isDrawDisplayed {
-                Text("Draw")
+            if isTieDisplayed {
+                Image("tie")
             }
             
             if isLoseDisplayed {
-                Text("Lose")
+                Image("lose")
             }
         }
         .navigationTitle("Game")
@@ -448,6 +542,7 @@ struct GameView: View {
 
 struct GameView_Previews: PreviewProvider {
     static var previews: some View {
-        GameView("test")
+//        GameView("test")
+        GameView("test").environment(\.colorScheme, .dark)
     }
 }

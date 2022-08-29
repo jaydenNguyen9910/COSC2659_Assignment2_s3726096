@@ -28,26 +28,36 @@ struct SignInView: View {
 
     var body: some View {
         ZStack {
+            // MARK: - BACKGROUND
+            LinearGradient(gradient: Gradient(colors: [Color("intro-background-start"), Color("intro-background-end")]), startPoint: .leading, endPoint: .trailing)
+                .edgesIgnoringSafeArea(.all)
+            
             VStack {
+                //App name
+                Image("three-cards-poker-logo")
+                    .resizable()
+                    .frame(width: 200, height: 100)
+                
+                //Logo
+                LogoView(logoFileName: "poker")
+                
                 HStack{
-                    Text("Enter you username:")
-                    
                     TextField(
-                        "Username",
+                        "",
                         text: $username
                     )
                     .onSubmit {
                         validate(name: username)
                     }
-                    .textInputAutocapitalization(.never)
-                    .disableAutocorrection(true)
-                    .border(.secondary)
+                    .modifier(textFieldModifier())
                 }
                 Button {
                     validate(name: username)
                 } label: {
                     Text("Sign In")
+                        .modifier(textModifier())
                 }
+                .modifier(buttonModifier())
             }
             
             // MARK: - SIGN-IN ERROR MODAL
@@ -56,16 +66,23 @@ struct SignInView: View {
                     Color("ColorBlackTransparent")
                         .edgesIgnoringSafeArea(.all)
                     VStack{
-                        Text("Your account does not exist! Please try again!")
+                        Text("Your account does not exist!\nPlease try again!")
+                            .modifier(textModifier())
                         Button {
                             self.showSignInErrorModal = false
                         } label: {
                             Text("Ok".uppercased())
+                                .fontWeight(.heavy)
                                 .foregroundColor(Color.white)
                         }
+                        .modifier(buttonModifier())
                     }
-                    .frame(minWidth: 280, idealWidth: 280, maxWidth: 320, minHeight: 280, idealHeight: 300, maxHeight: 350, alignment: .center)
+                    .frame(maxWidth: 250, maxHeight: 120, alignment: .center)
                     .cornerRadius(20)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 40)
+                            .stroke(Color("button-background"), lineWidth: 1)
+                    ).background(RoundedRectangle(cornerRadius: 40).fill(Color("button-background")))
                 }// ZStack 
             }
         } //ZStack

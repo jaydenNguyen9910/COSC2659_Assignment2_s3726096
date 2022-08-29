@@ -37,26 +37,42 @@ struct SignUpView: View {
 
     var body: some View {
         ZStack {
+            // MARK: - BACKGROUND
+            LinearGradient(gradient: Gradient(colors: [Color("intro-background-start"), Color("intro-background-end")]), startPoint: .leading, endPoint: .trailing)
+                .edgesIgnoringSafeArea(.all)
+            
             VStack {
+                //App name
+                Image("three-cards-poker-logo")
+                    .resizable()
+                    .frame(width: 200, height: 100)
+                
+                //Logo
+                LogoView(logoFileName: "poker")
+                
                 HStack{
-                    Text("Enter you username:")
+                    VStack{
+                        Text("Enter you username:")
+                            .modifier(textModifier())
+                    }
+                    .modifier(buttonModifier())
                     
                     TextField(
-                        "Username",
+                        "",
                         text: $username
                     )
                     .onSubmit {
                         register(name: username)
                     }
-                    .textInputAutocapitalization(.never)
-                    .disableAutocorrection(true)
-                    .border(.secondary)
+                    .modifier(textFieldModifier())
                 }
                 Button {
                     register(name: username)
                 } label: {
                     Text("Register")
+                        .modifier(textModifier())
                 }
+                .modifier(buttonModifier())
             } //VStack
             
             // MARK: - SIGN-IN ERROR MODAL
